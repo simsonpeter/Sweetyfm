@@ -37,6 +37,32 @@
       justify-content: center;
     }
 
+    /* Title bar */
+    .title-bar {
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+      background-color: #1c1c1e;
+      border-bottom: 1px solid #444;
+    }
+
+    .title-bar h1 {
+      font-size: 1.5rem;
+      color: #fff;
+      margin: 0;
+    }
+
+    /* Centered logo */
+    .logo {
+      margin: 20px 0;
+    }
+
+    .logo img {
+      width: 150px;
+      height: 150px;
+      border-radius: 20px;
+    }
+
     /* Custom audio player */
     .custom-player {
       width: 100%;
@@ -64,40 +90,58 @@
 
     /* Play/Pause button */
     #play-pause-btn {
-      width: 100px;
-      height: 100px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background-color: #ff2d55;
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.5rem;
+      font-size: 1.5rem;
       border: none;
       cursor: pointer;
-      transition: transform 0.2s ease, background-color 0.3s ease;
-      box-shadow: 0 8px 20px rgba(255, 45, 85, 0.4);
+      transition: background-color 0.3s ease;
+      margin: 20px auto;
     }
 
     #play-pause-btn:hover {
       background-color: #ff1a40;
-      transform: scale(1.1);
     }
 
-    #play-pause-btn:active {
-      transform: scale(0.95);
+    /* Small image at the end of the player bar */
+    .player-footer {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .player-footer img {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
     }
 
     /* Footer */
     .app-footer {
-      margin-top: 20px;
+      margin-top: auto;
       font-size: 0.8rem;
       color: #888;
+      padding: 10px;
     }
   </style>
 </head>
 <body>
   <div class="app-container">
+    <!-- Title Bar -->
+    <div class="title-bar">
+      <h1>Sweety FM</h1>
+    </div>
+
+    <!-- Centered Logo -->
+    <div class="logo">
+      <img src="https://sweetyfm.com/wp-content/uploads/2023/11/Sweety-FM.png" alt="Sweety FM Logo">
+    </div>
+
     <!-- Custom Audio Player -->
     <div class="custom-player">
       <!-- Progress Bar -->
@@ -107,6 +151,11 @@
 
       <!-- Play/Pause Button -->
       <button id="play-pause-btn">▶️</button>
+    </div>
+
+    <!-- Small Image at the End of the Player Bar -->
+    <div class="player-footer">
+      <img src="https://sweetyfm.com/wp-content/uploads/2023/11/Sweety-FM.png" alt="Sweety FM Small Logo">
     </div>
 
     <!-- Footer -->
