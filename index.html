@@ -15,7 +15,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background-image: url('https://i.ibb.co/jPm6K3Dy/923.jpg');
+      background-image: url('https://sweetyfm.com/wp-content/uploads/2023/11/cropped-Sweety-FM.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -211,7 +211,7 @@
   <!-- Sticky Title Bar with Logo -->
   <div class="title-bar">
     <img src="https://sweetyfm.com/wp-content/uploads/2023/11/cropped-Sweety-FM.png" alt="Sweety FM Logo">
-    Sweety FM
+    Sweety FM - Listen Live
   </div>
 
   <!-- Verse Display -->
@@ -227,9 +227,9 @@
 
   <!-- Sticky Bottom Tabs -->
   <div class="tabs">
-    <div class="tab active" data-stream="https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/">Tamil</div>
-    <div class="tab" data-stream="https://rbx2.hnux.com/http://e15061.cloudrad.io:80/3fb1379tn7zuv?_=0.8058376957820803">Telugu</div>
-    <div class="tab" data-stream="https://rbx2.hnux.com/http://e13688.cloudrad.io:80/36r8z4nyx7zuv?_=0.12687992153410788">Malayalam</div>
+    <div class="tab active" data-stream="http://stream.sweetyfm.com:8000/tamil">Tamil</div>
+    <div class="tab" data-stream="http://stream.sweetyfm.com:8000/telugu">Telugu</div>
+    <div class="tab" data-stream="http://stream.sweetyfm.com:8000/malayalam">Malayalam</div>
     <div class="tab" id="about-tab">About Us</div>
   </div>
 
@@ -241,7 +241,7 @@
   <!-- Hidden Audio Player -->
   <audio id="radio-stream">
     <!-- Default stream (Tamil) -->
-    <source https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/" type="audio/mpeg">
+    <source src="http://stream.sweetyfm.com:8000/tamil" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
@@ -304,6 +304,7 @@
           // Show About Us section
           aboutSection.style.display = 'block';
           playPauseButton.style.display = 'none';
+          audio.pause(); // Pause audio when About Us is clicked
         } else {
           // Hide About Us section and show play button
           aboutSection.style.display = 'none';
