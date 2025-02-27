@@ -5,410 +5,387 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Sweety FM - Listen Live</title>
+  <meta name="description" content="Sweety FM - Your premier destination for Tamil, Telugu, Malayalam, and Iniyan music">
+  <link rel="manifest" href="/manifest.webmanifest">
   <style>
-    /* General Styles */
-    body {
-      font-family: Arial, sans-serif;
+    :root {
+      --primary-color: #ffa500;
+      --bg-opacity: 0.14;
+      --text-color: #333;
+      --bg-color: rgba(255, 255, 255, var(--bg-opacity));
+      --section-bg: rgba(255, 255, 255, 0.9);
+    }
+
+    body.dark-mode {
+      --bg-opacity: 0.7;
+      --text-color: #fff;
+      --bg-color: rgba(0, 0, 0, var(--bg-opacity));
+      --section-bg: rgba(0, 0, 0, 0.9);
+    }
+
+    /* Base Styles */
+    * {
+      box-sizing: border-box;
       margin: 0;
-      height: 100vh;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: url('https://i.ibb.co/PZH0Z05Y/microphone-acoustic-isolation-foam.webp');
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: overlay;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Header Styles */
+    .title-bar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary-color);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background-image: url('https://i.ibb.co/PZH0Z05Y/microphone-acoustic-isolation-foam.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-color: rgba(255, 255, 255, 0.14);
-      background-blend-mode: overlay;
-      transition: background-color 0.1s ease, color 0.3s ease;
-    }
-
-    body.dark-mode {
-      background-color: rgba(0, 0, 0, 0.7);
-      color: #fff;
-    }
-
-    /* Sticky Title Bar */
-    .title-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
+      padding: 4rem 1rem 6rem;
       width: 100%;
-      background-color: #ffa500;
-      color: white;
-      padding: 15px 20px;
-      font-size: 24px;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between; /* Space between title and buttons */
-    }
-
-    /* Button Container */
-    .button-container {
-      display: flex;
-      align-items: center;
-      gap: 10px; /* Space between buttons */
-    }
-
-    /* Dark Mode Toggle (Improved Design) */
-    .theme-toggle {
-      background-color: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .theme-toggle:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
-    }
-
-    body.dark-mode .theme-toggle {
-      background-color: rgba(0, 0, 0, 0.2);
-      color: #fff;
-      border: 2px solid #fff;
-    }
-
-    body.dark-mode .theme-toggle:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    /* About Toggle Button (Improved Design) */
-    .about-toggle {
-      background-color: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-      padding: 10px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-    }
-
-    .about-toggle:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-      transform: scale(1.1);
-    }
-
-    .about-toggle i {
-      font-size: 24px;
     }
 
     /* Verse Display */
     .verse-container {
-      position: absolute;
-      top: 20%;
-      text-align: center;
-      z-index: 999;
-      padding: 20px;
-      background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 10px;
+      background: var(--section-bg);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin: 1rem;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      max-width: 80%;
-      margin-top: 20px;
+      max-width: 800px;
+      text-align: center;
     }
 
-    .verse-container h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: #333;
+    /* Play Controls */
+    .play-controls {
+      position: relative;
+      margin: 2rem 0;
     }
 
-    .verse-container p {
-      font-size: 18px;
-      color: #555;
-    }
-
-    body.dark-mode .verse-container {
-      background-color: rgba(0, 0, 0, 0.8);
-      color: #fff;
-    }
-
-    body.dark-mode .verse-container h2,
-    body.dark-mode .verse-container p {
-      color: #fff;
-    }
-
-    /* Play/Pause Button */
     .play-button {
-      background-color: #ffa500;
       width: 120px;
       height: 120px;
       border-radius: 50%;
+      background: var(--primary-color);
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s ease;
-      position: absolute;
-      top: 70%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .play-button:hover {
-      background-color: #e69500;
-    }
-    .play-button i {
-      color: white;
-      font-size: 50px;
+      transition: transform 0.2s ease;
     }
 
-    /* Sticky Bottom Tabs */
+    .play-button:hover {
+      transform: scale(1.05);
+    }
+
+    .play-button i {
+      color: white;
+      font-size: 3rem;
+      margin-left: 5px;
+    }
+
+    /* Tabs Navigation */
     .tabs {
       position: fixed;
       bottom: 0;
-      left: 0;
       width: 100%;
-      display: flex;
-      justify-content: center;
-      background-color: #fff;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--section-bg);
       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
       z-index: 1000;
     }
 
-    body.dark-mode .tabs {
-      background-color: #333;
-    }
-
     .tab {
-      flex: 1;
-      padding: 15px 0;
+      padding: 1rem;
       text-align: center;
       cursor: pointer;
-      font-size: 18px;
-      color: #333;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: all 0.3s ease;
     }
 
-    body.dark-mode .tab {
-      color: #fff;
-    }
-
+    .tab.active,
     .tab:hover {
-      background-color: #ffa500;
+      background: var(--primary-color);
       color: white;
     }
 
-    .tab.active {
-      background-color: #ffa500;
-      color: white;
-    }
-
-    /* About Us Section */
+    /* About Section */
     .about-us {
       position: fixed;
-      top: 80px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--section-bg);
+      padding: 2rem;
+      border-radius: 1rem;
+      max-width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      z-index: 1001;
+      display: none;
+    }
+
+    /* Error Messages */
+    .error-message {
+      position: fixed;
+      bottom: 1rem;
       left: 50%;
       transform: translateX(-50%);
-      width: 90%;
-      max-width: 800px;
-      max-height: 70vh;
-      padding: 20px;
-      overflow-y: auto;
-      background-color: rgba(255, 255, 255, 0.9);
-      color: #333;
-      text-align: center;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      z-index: 999;
+      background: #ff4444;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { bottom: -4rem; }
+      to { bottom: 1rem; }
+    }
+
+    /* Loading Spinner */
+    .loading-spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
       display: none;
     }
 
-    body.dark-mode .about-us {
-      background-color: rgba(0, 0, 0, 0.9);
-      color: #fff;
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
-    .about-us h2 {
-      font-size: 32px;
-      margin-bottom: 20px;
-      color: #ffa500;
-    }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .verse-container {
+        padding: 1rem;
+        margin: 1rem 0.5rem;
+      }
 
-    .about-us p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin: 0 auto 20px;
-    }
+      .play-button {
+        width: 80px;
+        height: 80px;
+      }
 
-    .about-us h3 {
-      font-size: 24px;
-      margin-top: 30px;
-      color: #ffa500;
-    }
+      .play-button i {
+        font-size: 2rem;
+      }
 
-    /* Hidden Audio Player */
-    audio {
-      display: none;
+      .tabs {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
-  <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <!-- Sticky Title Bar -->
-  <div class="title-bar">
-    <span>Sweety FM</span>
-    <div class="button-container">
-      <button class="theme-toggle" id="theme-toggle">
-        <i class="fas fa-moon"></i> Dark Mode
+  <header class="title-bar">
+    <h1>Sweety FM</h1>
+    <div class="controls">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
       </button>
-      <button class="about-toggle" id="about-toggle">
+      <button class="about-toggle" id="about-toggle" aria-label="About">
         <i class="fas fa-info-circle"></i>
       </button>
     </div>
-  </div>
+  </header>
 
-  <!-- Verse Display -->
-  <div class="verse-container" id="verse-container">
-    <h2 id="verse-text">Loading verse...</h2>
-    <p id="verse-translation"></p>
-  </div>
+  <main>
+    <section class="verse-container" aria-live="polite">
+      <h2 id="verse-text">Loading verse...</h2>
+      <p id="verse-translation"></p>
+      <div class="loading-spinner" id="verse-loader"></div>
+    </section>
 
-  <!-- Play/Pause Button -->
-  <div class="play-button" id="play-pause-button">
-    <i class="fas fa-play"></i>
-  </div>
+    <div class="play-controls">
+      <div class="play-button" id="play-button" role="button" aria-label="Play/pause">
+        <i class="fas fa-play"></i>
+      </div>
+      <div class="loading-spinner" id="audio-loader"></div>
+    </div>
+  </main>
 
-  <!-- Full-Screen About Us Section -->
-  <div class="about-us" id="about-us">
+  <footer class="tabs" role="tablist">
+    <button class="tab active" role="tab" aria-selected="true" data-stream="https://stream.sweetyfm.com/tamil">Tamil</button>
+    <button class="tab" role="tab" data-stream="https://stream.sweetyfm.com/telugu">Telugu</button>
+    <button class="tab" role="tab" data-stream="https://stream.sweetyfm.com/malayalam">Malayalam</button>
+    <button class="tab" role="tab" data-stream="https://stream.sweetyfm.com/iniyan">Iniyan</button>
+  </footer>
+
+  <dialog class="about-us" id="about-dialog">
     <h2>About Sweety FM</h2>
-    <p>
-      Sweety FM is your go-to destination for the best Tamil, Telugu, Malayalam, and Iniyan music and shows. 
-      Tune in to enjoy live streaming, exclusive content, and more!
-    </p>
-    <h3>Our Mission</h3>
-    <p>
-      Our mission is to bring you the best in music, entertainment, and cultural programming. 
-      Whether you're a fan of Tamil, Telugu, Malayalam, or Iniyan music, Sweety FM has something for everyone.
-    </p>
-    <h3>Contact Us</h3>
-    <p>
-      Email: info@sweetyfm.com<br>
-      Phone: +91 123 456 7890<br>
-      Address: 123 Radio Street, Chennai, India
-    </p>
-  </div>
+    <!-- About content here -->
+    <button onclick="document.getElementById('about-dialog').close()" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </dialog>
 
-  <!-- Sticky Bottom Tabs -->
-  <div class="tabs">
-    <div class="tab active" data-stream="https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/">Tamil</div>
-    <div class="tab" data-stream="https://rbx2.hnux.com/http://e15061.cloudrad.io:80/3fb1379tn7zuv?_=0.8058376957820803">Telugu</div>
-    <div class="tab" data-stream="https://rbx2.hnux.com/http://e13688.cloudrad.io:80/36r8z4nyx7zuv?_=0.12687992153410788">Malayalam</div>
-    <div class="tab" data-stream="http://stream.sweetyfm.com:8000/iniyan">Iniyan</div>
-  </div>
-
-  <!-- Hidden Audio Player -->
-  <audio id="radio-stream">
-    <!-- Default stream (Tamil) -->
-    <source src="http://stream.sweetyfm.com:8000/tamil" type="audio/mpeg">
-    Your browser does not support the audio element.
+  <audio id="audio-player" preload="none">
+    <source src="https://stream.sweetyfm.com/tamil" type="audio/mpeg">
   </audio>
 
   <script>
-    const audio = document.getElementById('radio-stream');
-    const playPauseButton = document.getElementById('play-pause-button');
-    const playIcon = playPauseButton.querySelector('i');
-    const tabs = document.querySelectorAll('.tab');
-    const aboutSection = document.getElementById('about-us');
-    const verseContainer = document.getElementById('verse-container');
+    // Theme Management
     const themeToggle = document.getElementById('theme-toggle');
-    const aboutToggle = document.getElementById('about-toggle');
     const body = document.body;
-    const verseText = document.getElementById('verse-text');
-    const verseTranslation = document.getElementById('verse-translation');
+    let isDarkMode = localStorage.getItem('theme') === 'dark' || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches && !('theme' in localStorage));
 
-    // Fetch verse from verse.json
-    async function fetchVerse() {
-      try {
-        const response = await fetch('verse.json');
-        const data = await response.json();
-        verseText.textContent = data.verse;
-        verseTranslation.textContent = data.translation;
-      } catch (error) {
-        console.error('Error fetching verse:', error);
-        verseText.textContent = "Failed to load verse.";
-      }
+    function updateTheme() {
+      body.classList.toggle('dark-mode', isDarkMode);
+      themeToggle.innerHTML = isDarkMode ? 
+        '<i class="fas fa-sun"></i>' : 
+        '<i class="fas fa-moon"></i>';
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
     }
+    updateTheme();
 
-    // Function to switch streams
-    function switchStream(streamUrl) {
-      audio.pause();
-      audio.src = streamUrl;
-      audio.load();
-      audio.play().catch(error => console.error('Error playing audio:', error));
-      playIcon.classList.remove('fa-play');
-      playIcon.classList.add('fa-pause');
-    }
-
-    // Play/Pause Button
-    playPauseButton.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        playIcon.classList.remove('fa-play');
-        playIcon.classList.add('fa-pause');
-      } else {
-        audio.pause();
-        playIcon.classList.remove('fa-pause');
-        playIcon.classList.add('fa-play');
-      }
+    themeToggle.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      updateTheme();
     });
 
-    // Tab Switching
+    // Audio Management
+    const audio = document.getElementById('audio-player');
+    const playButton = document.getElementById('play-button');
+    const tabs = document.querySelectorAll('.tab');
+    let currentStream = '';
+
+    async function loadStream(streamUrl) {
+      if (currentStream === streamUrl) return;
+      
+      showLoader('audio-loader');
+      try {
+        audio.src = streamUrl;
+        await audio.play();
+        currentStream = streamUrl;
+        playButton.querySelector('i').classList.replace('fa-play', 'fa-pause');
+      } catch (error) {
+        showError('Error connecting to stream. Please try again.');
+      } finally {
+        hideLoader('audio-loader');
+      }
+    }
+
+    // UI Controls
+    playButton.addEventListener('click', () => {
+      audio.paused ? audio.play() : audio.pause();
+    });
+
+    audio.addEventListener('play', () => {
+      playButton.querySelector('i').classList.replace('fa-play', 'fa-pause');
+    });
+
+    audio.addEventListener('pause', () => {
+      playButton.querySelector('i').classList.replace('fa-pause', 'fa-play');
+    });
+
+    // Tab Navigation
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        // Remove active class from all tabs
-        tabs.forEach(t => t.classList.remove('active'));
-        // Add active class to the clicked tab
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
         tab.classList.add('active');
-
-        // Hide About Us section and show verse container and play button
-        aboutSection.style.display = 'none';
-        verseContainer.style.display = 'block';
-        playPauseButton.style.display = 'flex';
-        // Switch to the selected stream
-        switchStream(tab.getAttribute('data-stream'));
+        tab.setAttribute('aria-selected', 'true');
+        loadStream(tab.dataset.stream);
       });
     });
 
-    // About Toggle Button
-    aboutToggle.addEventListener('click', () => {
-      aboutSection.style.display = 'block';
-      verseContainer.style.display = 'none';
-      playPauseButton.style.display = 'none';
-      audio.pause(); // Pause audio when About Us is clicked
+    // Error Handling
+    audio.addEventListener('error', () => {
+      showError('Stream connection error. Trying again...');
+      setTimeout(() => loadStream(currentStream), 5000);
     });
 
-    // Dark/Light Mode Toggle
-    themeToggle.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      if (body.classList.contains('dark-mode')) {
-        themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
-      } else {
-        themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+    function showError(message) {
+      const errorEl = document.createElement('div');
+      errorEl.className = 'error-message';
+      errorEl.textContent = message;
+      document.body.appendChild(errorEl);
+      setTimeout(() => errorEl.remove(), 5000);
+    }
+
+    // Loaders
+    function showLoader(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function hideLoader(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    // Verse Loading
+    async function loadVerse() {
+      showLoader('verse-loader');
+      try {
+        const response = await fetch('verses.json');
+        const verses = await response.json();
+        const { text, translation } = verses[Math.floor(Math.random() * verses.length)];
+        document.getElementById('verse-text').textContent = text;
+        document.getElementById('verse-translation').textContent = translation;
+      } catch {
+        showError('Error loading daily verse');
+      } finally {
+        hideLoader('verse-loader');
+      }
+    }
+
+    // About Dialog
+    document.getElementById('about-toggle').addEventListener('click', () => {
+      document.getElementById('about-dialog').showModal();
+    });
+
+    // Initialize
+    loadVerse();
+    loadStream(document.querySelector('.tab.active').dataset.stream);
+
+    // Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .catch(error => console.log('SW registration failed:', error));
+      });
+    }
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        playButton.click();
       }
     });
-
-    // Fetch verse on page load
-    fetchVerse();
   </script>
 </body>
 </html>
