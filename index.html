@@ -15,7 +15,7 @@
       align-items: center;
       justify-content: center; /* Center content vertically */
       /* Logo as Background */
-      background-image: url('https://i.ibb.co/d4gHSdYg/radio-concept-with-old-disc.jpg');
+      background-image: url('https://sweetyfm.com/wp-content/uploads/2023/11/cropped-Sweety-FM.png');
       background-size: cover; /* Cover the entire page */
       background-position: center; /* Center the logo */
       background-repeat: no-repeat; /* Prevent repeating */
@@ -64,15 +64,17 @@
       font-size: 50px;
     }
 
-    /* About Us Section */
+    /* Full-Screen About Us Section */
     .about-us {
-      margin-top: 30px;
-      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
       background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      max-width: 600px;
-      text-align: center;
+      padding: 80px 20px 20px; /* Add padding to avoid overlap with title bar */
+      overflow-y: auto; /* Make it scrollable */
+      z-index: 999; /* Ensure it appears above other elements */
       display: none; /* Hidden by default */
     }
 
@@ -125,12 +127,23 @@
     <i class="fas fa-play"></i>
   </div>
 
-  <!-- About Us Section -->
+  <!-- Full-Screen About Us Section -->
   <div class="about-us" id="about-us">
     <h2>About Sweety FM</h2>
     <p>
       Sweety FM is your go-to destination for the best Tamil, Telugu, and Malayalam music and shows. 
       Tune in to enjoy live streaming, exclusive content, and more!
+    </p>
+    <h3>Our Mission</h3>
+    <p>
+      Our mission is to bring you the best in music, entertainment, and cultural programming. 
+      Whether you're a fan of Tamil, Telugu, or Malayalam music, Sweety FM has something for everyone.
+    </p>
+    <h3>Contact Us</h3>
+    <p>
+      Email: info@sweetyfm.com<br>
+      Phone: +91 123 456 7890<br>
+      Address: 123 Radio Street, Chennai, India
     </p>
   </div>
 
@@ -191,11 +204,13 @@
           // Show About Us section
           aboutSection.style.display = 'block';
           playPauseButton.style.display = 'none';
+          document.querySelector('.tabs').style.display = 'none'; // Hide bottom tabs
           audio.pause();
         } else {
-          // Hide About Us section and show play button
+          // Hide About Us section and show play button and tabs
           aboutSection.style.display = 'none';
           playPauseButton.style.display = 'flex';
+          document.querySelector('.tabs').style.display = 'flex'; // Show bottom tabs
           // Switch to the selected stream
           switchStream(tab.getAttribute('data-stream'));
         }
