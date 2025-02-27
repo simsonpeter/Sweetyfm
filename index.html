@@ -44,7 +44,40 @@
       z-index: 1000;
       display: flex;
       align-items: center;
-      justify-content: space-between; /* Space between title and toggle button */
+      justify-content: space-between; /* Space between title and buttons */
+    }
+
+    /* Dark Mode Toggle (Moved to Top-Right) */
+    .theme-toggle {
+      background-color: #ffa500;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin-right: 10px; /* Space between Dark Mode and About buttons */
+    }
+
+    .theme-toggle:hover {
+      background-color: #e69500;
+      transform: scale(1.05);
+    }
+
+    body.dark-mode .theme-toggle {
+      background-color: #333;
+      color: #fff;
+      border: 2px solid #fff;
+    }
+
+    body.dark-mode .theme-toggle:hover {
+      background-color: #fff;
+      color: #333;
     }
 
     /* About Toggle Button */
@@ -55,35 +88,35 @@
       font-size: 24px;
       cursor: pointer;
       transition: transform 0.3s ease;
-      padding: 0; /* Remove default padding */
-      margin: 0; /* Remove default margin */
-      display: flex; /* Ensure the icon is properly aligned */
+      padding: 0;
+      margin: 0;
+      display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px; /* Set a fixed width */
-      height: 40px; /* Set a fixed height */
+      width: 40px;
+      height: 40px;
     }
 
     .about-toggle:hover {
-      transform: scale(1.1); /* Slightly enlarge on hover */
+      transform: scale(1.1);
     }
 
     .about-toggle i {
-      font-size: 24px; /* Ensure the icon size is correct */
+      font-size: 24px;
     }
 
     /* Verse Display */
     .verse-container {
       position: absolute;
-      top: 20%; /* Position below the title bar */
+      top: 20%;
       text-align: center;
       z-index: 999;
       padding: 20px;
-      background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+      background-color: rgba(255, 255, 255, 0.8);
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       max-width: 80%;
-      margin-top: 20px; /* Add margin to avoid overlap */
+      margin-top: 20px;
     }
 
     .verse-container h2 {
@@ -120,7 +153,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       transition: background-color 0.3s ease;
       position: absolute;
-      top: 70%; /* Moved lower to 70% of the screen */
+      top: 70%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -173,54 +206,18 @@
       color: white;
     }
 
-    /* Modern Dark Mode Toggle */
-    .theme-toggle {
-      position: fixed;
-      bottom: 70px; /* Positioned slightly above the tabs */
-      right: 20px;
-      background-color: #ffa500; /* Solid background by default */
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 16px;
-      z-index: 1001; /* Ensure it's above other elements */
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .theme-toggle:hover {
-      background-color: #e69500; /* Darker shade on hover */
-      transform: scale(1.05); /* Slightly enlarge on hover */
-    }
-
-    body.dark-mode .theme-toggle {
-      background-color: #333;
-      color: #fff;
-      border: 2px solid #fff;
-    }
-
-    body.dark-mode .theme-toggle:hover {
-      background-color: #fff;
-      color: #333;
-    }
-
     /* About Us Section */
     .about-us {
       position: fixed;
-      top: 80px; /* Position below the title bar */
+      top: 80px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
       max-width: 800px;
-      max-height: 70vh; /* Limit height to 70% of the viewport */
+      max-height: 70vh;
       padding: 20px;
-      overflow-y: auto; /* Make it scrollable */
-      background-color: rgba(255, 255, 255, 0.9); /* Light background */
+      overflow-y: auto;
+      background-color: rgba(255, 255, 255, 0.9);
       color: #333;
       text-align: center;
       border-radius: 10px;
@@ -230,14 +227,14 @@
     }
 
     body.dark-mode .about-us {
-      background-color: rgba(0, 0, 0, 0.9); /* Dark background */
+      background-color: rgba(0, 0, 0, 0.9);
       color: #fff;
     }
 
     .about-us h2 {
       font-size: 32px;
       margin-bottom: 20px;
-      color: #ffa500; /* Orange color for heading */
+      color: #ffa500;
     }
 
     .about-us p {
@@ -249,7 +246,7 @@
     .about-us h3 {
       font-size: 24px;
       margin-top: 30px;
-      color: #ffa500; /* Orange color for sub-heading */
+      color: #ffa500;
     }
 
     /* Hidden Audio Player */
@@ -264,9 +261,14 @@
   <!-- Sticky Title Bar -->
   <div class="title-bar">
     <span>Sweety FM</span>
-    <button class="about-toggle" id="about-toggle">
-      <i class="fas fa-info-circle"></i> <!-- "I" icon -->
-    </button>
+    <div>
+      <button class="theme-toggle" id="theme-toggle">
+        <i class="fas fa-moon"></i> Dark Mode
+      </button>
+      <button class="about-toggle" id="about-toggle">
+        <i class="fas fa-info-circle"></i>
+      </button>
+    </div>
   </div>
 
   <!-- Verse Display -->
@@ -307,11 +309,6 @@
     <div class="tab" data-stream="https://rbx2.hnux.com/http://e13688.cloudrad.io:80/36r8z4nyx7zuv?_=0.12687992153410788">Malayalam</div>
     <div class="tab" data-stream="http://stream.sweetyfm.com:8000/iniyan">Iniyan</div>
   </div>
-
-  <!-- Modern Dark Mode Toggle -->
-  <button class="theme-toggle" id="theme-toggle">
-    <i class="fas fa-moon"></i> Dark Mode
-  </button>
 
   <!-- Hidden Audio Player -->
   <audio id="radio-stream">
