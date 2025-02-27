@@ -50,8 +50,16 @@
     }
 
     .title-bar img {
-      height: 30px; /* Adjust logo size */
+      height: 40px; /* Increased logo size */
       width: auto; /* Maintain aspect ratio */
+      border: 2px solid white; /* White border for contrast */
+      border-radius: 50%; /* Circular border */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Drop shadow */
+      transition: transform 0.3s ease; /* Smooth hover effect */
+    }
+
+    .title-bar img:hover {
+      transform: scale(1.1); /* Slightly enlarge on hover */
     }
 
     /* Play/Pause Button */
