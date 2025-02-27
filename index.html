@@ -57,10 +57,19 @@
       transition: transform 0.3s ease;
       padding: 0; /* Remove default padding */
       margin: 0; /* Remove default margin */
+      display: flex; /* Ensure the icon is properly aligned */
+      align-items: center;
+      justify-content: center;
+      width: 40px; /* Set a fixed width */
+      height: 40px; /* Set a fixed height */
     }
 
     .about-toggle:hover {
       transform: scale(1.1); /* Slightly enlarge on hover */
+    }
+
+    .about-toggle i {
+      font-size: 24px; /* Ensure the icon size is correct */
     }
 
     /* Verse Display */
