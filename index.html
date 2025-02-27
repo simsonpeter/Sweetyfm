@@ -44,17 +44,17 @@
       z-index: 1000;
       display: flex;
       align-items: center;
-      justify-content: space-between; /* Space between title and buttons */
+      justify-content: space-between;
     }
 
     /* Button Container */
     .button-container {
       display: flex;
       align-items: center;
-      gap: 10px; /* Space between buttons */
+      gap: 10px;
     }
 
-    /* Dark Mode Toggle (Improved Design) */
+    /* Dark Mode Toggle */
     .theme-toggle {
       background-color: rgba(255, 255, 255, 0.2);
       border: none;
@@ -85,7 +85,7 @@
       background-color: rgba(255, 255, 255, 0.1);
     }
 
-    /* About Toggle Button (Improved Design) */
+    /* About Toggle Button */
     .about-toggle {
       background-color: rgba(255, 255, 255, 0.2);
       border: none;
@@ -105,10 +105,6 @@
     .about-toggle:hover {
       background-color: rgba(255, 255, 255, 0.3);
       transform: scale(1.1);
-    }
-
-    .about-toggle i {
-      font-size: 24px;
     }
 
     /* Verse Display */
@@ -163,9 +159,11 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+
     .play-button:hover {
       background-color: #e69500;
     }
+
     .play-button i {
       color: white;
       font-size: 50px;
@@ -255,12 +253,24 @@
       color: #ffa500;
     }
 
+    /* Close Button */
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
     /* Hidden Audio Player */
     audio {
       display: none;
     }
   </style>
-  <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -288,8 +298,9 @@
     <i class="fas fa-play"></i>
   </div>
 
-  <!-- Full-Screen About Us Section -->
+  <!-- About Us Section -->
   <div class="about-us" id="about-us">
+    <button class="close-button" id="close-about">&times;</button>
     <h2>About Sweety FM</h2>
     <p>
       Sweety FM is your go-to destination for the best Tamil, Telugu, Malayalam, and Iniyan music and shows. 
@@ -318,7 +329,6 @@
 
   <!-- Hidden Audio Player -->
   <audio id="radio-stream">
-    <!-- Default stream (Tamil) -->
     <source src="http://stream.sweetyfm.com:8000/tamil" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
@@ -332,11 +342,43 @@
     const verseContainer = document.getElementById('verse-container');
     const themeToggle = document.getElementById('theme-toggle');
     const aboutToggle = document.getElementById('about-toggle');
+    const closeAbout = document.getElementById('close-about');
     const body = document.body;
     const verseText = document.getElementById('verse-text');
     const verseTranslation = document.getElementById('verse-translation');
 
-    // Fetch verse from verse.json
+    // Dark Mode with LocalStorage
+    function updateTheme(isDark) {
+      body.classList.toggle('dark-mode', isDark);
+      themeToggle.innerHTML = isDark 
+        ? '<i class="fas fa-sun"></i> Light Mode' 
+        : '<i class="fas fa-moon"></i> Dark Mode';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    // Initialize theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    updateTheme(savedTheme === 'dark');
+
+    themeToggle.addEventListener('click', () => {
+      updateTheme(!body.classList.contains('dark-mode'));
+    });
+
+    // About Section Controls
+    aboutToggle.addEventListener('click', () => {
+      aboutSection.style.display = 'block';
+      verseContainer.style.display = 'none';
+      playPauseButton.style.display = 'none';
+      audio.pause();
+    });
+
+    closeAbout.addEventListener('click', () => {
+      aboutSection.style.display = 'none';
+      verseContainer.style.display = 'block';
+      playPauseButton.style.display = 'flex';
+    });
+
+    // Original functionality below
     async function fetchVerse() {
       try {
         const response = await fetch('verse.json');
@@ -344,70 +386,35 @@
         verseText.textContent = data.verse;
         verseTranslation.textContent = data.translation;
       } catch (error) {
-        console.error('Error fetching verse:', error);
         verseText.textContent = "Failed to load verse.";
       }
     }
 
-    // Function to switch streams
     function switchStream(streamUrl) {
       audio.pause();
       audio.src = streamUrl;
       audio.load();
-      audio.play().catch(error => console.error('Error playing audio:', error));
-      playIcon.classList.remove('fa-play');
-      playIcon.classList.add('fa-pause');
+      audio.play().catch(console.error);
+      playIcon.classList.replace('fa-play', 'fa-pause');
     }
 
-    // Play/Pause Button
     playPauseButton.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        playIcon.classList.remove('fa-play');
-        playIcon.classList.add('fa-pause');
-      } else {
-        audio.pause();
-        playIcon.classList.remove('fa-pause');
-        playIcon.classList.add('fa-play');
-      }
+      audio.paused ? audio.play() : audio.pause();
+      playIcon.classList.toggle('fa-play');
+      playIcon.classList.toggle('fa-pause');
     });
 
-    // Tab Switching
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        // Remove active class from all tabs
         tabs.forEach(t => t.classList.remove('active'));
-        // Add active class to the clicked tab
         tab.classList.add('active');
-
-        // Hide About Us section and show verse container and play button
         aboutSection.style.display = 'none';
         verseContainer.style.display = 'block';
         playPauseButton.style.display = 'flex';
-        // Switch to the selected stream
-        switchStream(tab.getAttribute('data-stream'));
+        switchStream(tab.dataset.stream);
       });
     });
 
-    // About Toggle Button
-    aboutToggle.addEventListener('click', () => {
-      aboutSection.style.display = 'block';
-      verseContainer.style.display = 'none';
-      playPauseButton.style.display = 'none';
-      audio.pause(); // Pause audio when About Us is clicked
-    });
-
-    // Dark/Light Mode Toggle
-    themeToggle.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      if (body.classList.contains('dark-mode')) {
-        themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
-      } else {
-        themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
-      }
-    });
-
-    // Fetch verse on page load
     fetchVerse();
   </script>
 </body>
