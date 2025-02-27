@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Sweety FM</title>
+  <title>Sweety FM - Listen Live</title>
   <style>
     /* General Styles */
     body {
@@ -77,17 +77,11 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      padding: 80px 20px 20px;
+      padding: 80px 20px 100px; /* Add padding to avoid overlap with title bar and tabs */
       overflow-y: auto;
       z-index: 999;
       display: none;
-      color: #333;
-    }
-
-    body.dark-mode .about-us {
-      background: linear-gradient(135deg, #434343, #000000);
-      color: #fff;
+      color: inherit; /* Inherit body text color */
     }
 
     .about-us h2 {
@@ -151,23 +145,38 @@
       color: white;
     }
 
-    /* Dark/Light Mode Toggle */
+    /* Beautiful Dark Mode Toggle */
     .theme-toggle {
       position: fixed;
       top: 20px;
       right: 20px;
-      background-color: #ffa500;
-      border: none;
-      color: white;
+      background-color: transparent;
+      border: 2px solid #ffa500;
+      color: #ffa500;
       padding: 10px 15px;
-      border-radius: 5px;
+      border-radius: 25px;
       cursor: pointer;
       font-size: 16px;
       z-index: 1001;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .theme-toggle:hover {
-      background-color: #e69500;
+      background-color: #ffa500;
+      color: white;
+    }
+
+    body.dark-mode .theme-toggle {
+      border-color: #fff;
+      color: #fff;
+    }
+
+    body.dark-mode .theme-toggle:hover {
+      background-color: #fff;
+      color: #333;
     }
 
     /* Hidden Audio Player */
@@ -181,10 +190,10 @@
 <body>
   <!-- Sticky Title Bar -->
   <div class="title-bar">
-    Sweety FM
+    Sweety FM - Listen Live
   </div>
 
-  <!-- Dark/Light Mode Toggle -->
+  <!-- Beautiful Dark Mode Toggle -->
   <button class="theme-toggle" id="theme-toggle">
     <i class="fas fa-moon"></i> Dark Mode
   </button>
@@ -273,13 +282,10 @@
           // Show About Us section
           aboutSection.style.display = 'block';
           playPauseButton.style.display = 'none';
-          document.querySelector('.tabs').style.display = 'none';
-          audio.pause();
         } else {
-          // Hide About Us section and show play button and tabs
+          // Hide About Us section and show play button
           aboutSection.style.display = 'none';
           playPauseButton.style.display = 'flex';
-          document.querySelector('.tabs').style.display = 'flex';
           // Switch to the selected stream
           switchStream(tab.getAttribute('data-stream'));
         }
