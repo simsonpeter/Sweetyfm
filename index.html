@@ -38,11 +38,20 @@
       background-color: #ffa500;
       color: white;
       text-align: center;
-      padding: 15px 0;
+      padding: 10px 0;
       font-size: 24px;
       font-weight: bold;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px; /* Space between logo and text */
+    }
+
+    .title-bar img {
+      height: 30px; /* Adjust logo size */
+      width: auto; /* Maintain aspect ratio */
     }
 
     /* Play/Pause Button */
@@ -190,9 +199,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <!-- Sticky Title Bar -->
+  <!-- Sticky Title Bar with Logo -->
   <div class="title-bar">
-    Sweety FM
+    <img src="https://sweetyfm.com/wp-content/uploads/2023/11/cropped-Sweety-FM.png" alt="Sweety FM Logo">
+    Sweety FM - Listen Live
   </div>
 
   <!-- Play/Pause Button -->
