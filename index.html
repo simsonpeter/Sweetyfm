@@ -59,14 +59,15 @@
       background-color: rgba(255, 255, 255, 0.2);
       border: none;
       color: white;
-      padding: 10px 20px;
-      border-radius: 25px;
+      padding: 10px;
+      border-radius: 50%;
       cursor: pointer;
       font-size: 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      justify-content: center;
+      width: 40px;
+      height: 40px;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
@@ -78,11 +79,6 @@
     body.dark-mode .theme-toggle {
       background-color: rgba(0, 0, 0, 0.2);
       color: #fff;
-      border: 2px solid #fff;
-    }
-
-    body.dark-mode .theme-toggle:hover {
-      background-color: rgba(255, 255, 255, 0.1);
     }
 
     /* About Toggle Button */
@@ -107,50 +103,39 @@
       transform: scale(1.1);
     }
 
-    /* Verse Display */
-    .verse-container {
+    /* Dummy Button */
+    .dummy-button {
+      background: transparent !important;
+      border: none !important;
+      cursor: default !important;
+      opacity: 0;
+      pointer-events: none;
+      width: 40px;
+      height: 40px;
+    }
+
+    /* Logo Container */
+    .logo-container {
       position: absolute;
       top: 20%;
       text-align: center;
       z-index: 999;
       padding: 20px;
-      background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       max-width: 80%;
       margin-top: 20px;
     }
 
-    .verse-container h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: #333;
+    .logo-container img {
+      max-width: 300px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 
-    .verse-container p {
-      font-size: 18px;
-      color: #555;
+    body.dark-mode .logo-container img {
+      filter: brightness(0.9);
     }
 
-    body.dark-mode .verse-container {
-      background-color: rgba(0, 0, 0, 0.8);
-      color: #fff;
-    }
-
-    body.dark-mode .verse-container h2,
-    body.dark-mode .verse-container p {
-      color: #fff;
-    }
-/* Dummy Button */
-.dummy-button {
-  background: transparent !important;
-  border: none !important;
-  cursor: default !important;
-  opacity: 0;
-  pointer-events: none;
-  width: 40px;
-  height: 40px;
-}
     /* Play/Pause Button */
     .play-button {
       background-color: #ffa500;
@@ -291,20 +276,17 @@
         <i class="fas fa-info-circle"></i>
       </button>
       <button class="theme-toggle" id="theme-toggle">
-        <i class="fas fa-moon"></i> Dark Mode
+        <i class="fas fa-moon"></i>
       </button>
-       <!-- Dummy button -->
-    <button class="dummy-button" disabled>
-      <i class="fas fa-circle"></i>
-    </button>
-      
+      <button class="dummy-button" disabled>
+        <i class="fas fa-circle"></i>
+      </button>
     </div>
   </div>
 
-  <!-- Verse Display -->
-  <div class="verse-container" id="verse-container">
-    <h2 id="verse-text">Loading verse...</h2>
-    <p id="verse-translation"></p>
+  <!-- Logo Display -->
+  <div class="logo-container">
+    <img src="https://i.ibb.co/cSnS4wgG/cropped-Sweety-FM.png" alt="Sweety FM Logo">
   </div>
 
   <!-- Play/Pause Button -->
@@ -343,7 +325,7 @@
 
   <!-- Hidden Audio Player -->
   <audio id="radio-stream">
-    <source src="https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/" type="audio/mpeg">
+    <source src="http://stream.sweetyfm.com:8000/tamil" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
@@ -353,22 +335,20 @@
     const playIcon = playPauseButton.querySelector('i');
     const tabs = document.querySelectorAll('.tab');
     const aboutSection = document.getElementById('about-us');
-    const verseContainer = document.getElementById('verse-container');
+    const logoContainer = document.querySelector('.logo-container');
     const themeToggle = document.getElementById('theme-toggle');
     const aboutToggle = document.getElementById('about-toggle');
     const closeAbout = document.getElementById('close-about');
     const body = document.body;
-    const verseText = document.getElementById('verse-text');
-    const verseTranslation = document.getElementById('verse-translation');
 
-// Update the theme button update function
-function updateTheme(isDark) {
-  body.classList.toggle('dark-mode', isDark);
-  themeToggle.innerHTML = isDark 
-    ? '<i class="fas fa-sun"></i>' 
-    : '<i class="fas fa-moon"></i>';
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                        }
+    // Dark Mode with LocalStorage
+    function updateTheme(isDark) {
+      body.classList.toggle('dark-mode', isDark);
+      themeToggle.innerHTML = isDark 
+        ? '<i class="fas fa-sun"></i>' 
+        : '<i class="fas fa-moon"></i>';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
 
     // Initialize theme
     const savedTheme = localStorage.getItem('theme') || 'light';
@@ -381,29 +361,17 @@ function updateTheme(isDark) {
     // About Section Controls
     aboutToggle.addEventListener('click', () => {
       aboutSection.style.display = 'block';
-      verseContainer.style.display = 'none';
+      logoContainer.style.display = 'none';
       playPauseButton.style.display = 'none';
-      
     });
 
     closeAbout.addEventListener('click', () => {
       aboutSection.style.display = 'none';
-      verseContainer.style.display = 'block';
+      logoContainer.style.display = 'block';
       playPauseButton.style.display = 'flex';
     });
 
-    // Original functionality below
-    async function fetchVerse() {
-      try {
-        const response = await fetch('verse.json');
-        const data = await response.json();
-        verseText.textContent = data.verse;
-        verseTranslation.textContent = data.translation;
-      } catch (error) {
-        verseText.textContent = "Failed to load verse.";
-      }
-    }
-
+    // Audio Controls
     function switchStream(streamUrl) {
       audio.pause();
       audio.src = streamUrl;
@@ -418,18 +386,17 @@ function updateTheme(isDark) {
       playIcon.classList.toggle('fa-pause');
     });
 
+    // Tab Switching
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         aboutSection.style.display = 'none';
-        verseContainer.style.display = 'block';
+        logoContainer.style.display = 'block';
         playPauseButton.style.display = 'flex';
         switchStream(tab.dataset.stream);
       });
     });
-
-    fetchVerse();
   </script>
 </body>
 </html>
