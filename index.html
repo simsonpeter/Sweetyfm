@@ -47,9 +47,16 @@
       justify-content: space-between; /* Space between title and buttons */
     }
 
-    /* Dark Mode Toggle (Moved to Top-Right) */
+    /* Button Container */
+    .button-container {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* Space between buttons */
+    }
+
+    /* Dark Mode Toggle (Improved Design) */
     .theme-toggle {
-      background-color: #ffa500;
+      background-color: rgba(255, 255, 255, 0.2);
       border: none;
       color: white;
       padding: 10px 20px;
@@ -61,35 +68,33 @@
       gap: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       transition: background-color 0.3s ease, transform 0.2s ease;
-      margin-right: 10px; /* Space between Dark Mode and About buttons */
     }
 
     .theme-toggle:hover {
-      background-color: #e69500;
+      background-color: rgba(255, 255, 255, 0.3);
       transform: scale(1.05);
     }
 
     body.dark-mode .theme-toggle {
-      background-color: #333;
+      background-color: rgba(0, 0, 0, 0.2);
       color: #fff;
       border: 2px solid #fff;
     }
 
     body.dark-mode .theme-toggle:hover {
-      background-color: #fff;
-      color: #333;
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
-    /* About Toggle Button */
+    /* About Toggle Button (Improved Design) */
     .about-toggle {
-      background-color: transparent;
+      background-color: rgba(255, 255, 255, 0.2);
       border: none;
       color: white;
       font-size: 24px;
       cursor: pointer;
-      transition: transform 0.3s ease;
-      padding: 0;
-      margin: 0;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      padding: 10px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -98,6 +103,7 @@
     }
 
     .about-toggle:hover {
+      background-color: rgba(255, 255, 255, 0.3);
       transform: scale(1.1);
     }
 
@@ -261,7 +267,7 @@
   <!-- Sticky Title Bar -->
   <div class="title-bar">
     <span>Sweety FM</span>
-    <div>
+    <div class="button-container">
       <button class="theme-toggle" id="theme-toggle">
         <i class="fas fa-moon"></i> Dark Mode
       </button>
