@@ -32,32 +32,6 @@
       z-index: 1000;
     }
 
-    /* Tabs */
-    .tabs {
-      display: flex;
-      justify-content: center;
-      margin-top: 80px; /* Space below the title bar */
-      background-color: #fff;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .tab {
-      padding: 15px 30px;
-      cursor: pointer;
-      font-size: 18px;
-      color: #333;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    .tab:hover {
-      background-color: #ffa500; /* Orange-yellow */
-      color: white;
-    }
-    .tab.active {
-      background-color: #ffa500; /* Orange-yellow */
-      color: white;
-    }
-
     /* Play/Pause Button */
     .play-button {
       background-color: #ffa500; /* Orange-yellow */
@@ -70,7 +44,7 @@
       cursor: pointer;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       transition: background-color 0.3s ease;
-      margin-top: 30px;
+      margin-top: 100px; /* Space below the title bar */
     }
     .play-button:hover {
       background-color: #e69500; /* Darker shade on hover */
@@ -92,6 +66,36 @@
       display: none; /* Hidden by default */
     }
 
+    /* Sticky Bottom Tabs */
+    .tabs {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background-color: #fff;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    .tab {
+      flex: 1;
+      padding: 15px 0;
+      text-align: center;
+      cursor: pointer;
+      font-size: 18px;
+      color: #333;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .tab:hover {
+      background-color: #ffa500; /* Orange-yellow */
+      color: white;
+    }
+    .tab.active {
+      background-color: #ffa500; /* Orange-yellow */
+      color: white;
+    }
+
     /* Hidden Audio Player */
     audio {
       display: none;
@@ -106,14 +110,6 @@
     Sweety FM - Listen Live
   </div>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab active" data-stream="TAMIL_STREAM_URL">Tamil</div>
-    <div class="tab" data-stream="TELUGU_STREAM_URL">Telugu</div>
-    <div class="tab" data-stream="MALAYALAM_STREAM_URL">Malayalam</div>
-    <div class="tab" id="about-tab">About Us</div>
-  </div>
-
   <!-- Play/Pause Button -->
   <div class="play-button" id="play-pause-button">
     <i class="fas fa-play"></i>
@@ -126,6 +122,14 @@
       Sweety FM is your go-to destination for the best Tamil, Telugu, and Malayalam music and shows. 
       Tune in to enjoy live streaming, exclusive content, and more!
     </p>
+  </div>
+
+  <!-- Sticky Bottom Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-stream="TAMIL_STREAM_URL">Tamil</div>
+    <div class="tab" data-stream="TELUGU_STREAM_URL">Telugu</div>
+    <div class="tab" data-stream="MALAYALAM_STREAM_URL">Malayalam</div>
+    <div class="tab" id="about-tab">About Us</div>
   </div>
 
   <!-- Hidden Audio Player -->
