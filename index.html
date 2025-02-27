@@ -3,207 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sweety FM</title>
-  <link rel="manifest" href="manifest.json">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Internet Radio Station</title>
   <style>
-    /* Reset default styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    /* Full-screen mobile app layout */
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #000;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 50px;
     }
-
-    /* App container */
-    .app-container {
+    h1 {
+      color: #333;
+    }
+    .player {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+    }
+    audio {
       width: 100%;
       max-width: 400px;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Title bar */
-    .title-bar {
-      width: 100%;
-      text-align: center;
-      padding: 20px;
-      background-color: #1c1c1e;
-      border-bottom: 1px solid #444;
-    }
-
-    .title-bar h1 {
-      font-size: 1.5rem;
-      color: #fff;
-      margin: 0;
-    }
-
-    /* Centered logo */
-    .logo {
-      margin: 20px 0;
-    }
-
-    .logo img {
-      width: 150px;
-      height: 150px;
-      border-radius: 20px;
-    }
-
-    /* Custom audio player */
-    .custom-player {
-      width: 100%;
-      text-align: center;
-    }
-
-    /* Progress bar */
-    .progress-bar {
-      width: 80%;
-      height: 4px;
-      background-color: #444;
-      border-radius: 2px;
-      margin: 20px auto;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .progress {
-      width: 0%;
-      height: 100%;
-      background-color: #ff2d55;
-      border-radius: 2px;
-      transition: width 0.1s linear;
-    }
-
-    /* Play/Pause button */
-    #play-pause-btn {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background-color: #ff2d55;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin: 20px auto;
-    }
-
-    #play-pause-btn:hover {
-      background-color: #ff1a40;
-    }
-
-    /* Small image at the end of the player bar */
-    .player-footer {
       margin-top: 20px;
-      text-align: center;
     }
-
-    .player-footer img {
-      width: 50px;
-      height: 50px;
-      border-radius: 10px;
+    .social-links {
+      margin-top: 20px;
     }
-
-    /* Footer */
-    .app-footer {
-      margin-top: auto;
-      font-size: 0.8rem;
-      color: #888;
-      padding: 10px;
+    .social-links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+      font-size: 24px;
     }
   </style>
 </head>
 <body>
-  <div class="app-container">
-    <!-- Title Bar -->
-    <div class="title-bar">
-      <h1>Sweety FM</h1>
-    </div>
-
-    <!-- Centered Logo -->
-    <div class="logo">
-      <img src="https://sweetyfm.com/wp-content/uploads/2023/11/Sweety-FM.png" alt="Sweety FM Logo">
-    </div>
-
-    <!-- Custom Audio Player -->
-    <div class="custom-player">
-      <!-- Progress Bar -->
-      <div class="progress-bar">
-        <div class="progress" id="progress"></div>
-      </div>
-
-      <!-- Play/Pause Button -->
-      <button id="play-pause-btn">▶️</button>
-    </div>
-
-    <!-- Small Image at the End of the Player Bar -->
-    <div class="player-footer">
-      <img src="https://sweetyfm.com/wp-content/uploads/2023/11/Sweety-FM.png" alt="Sweety FM Small Logo">
-    </div>
-
-    <!-- Footer -->
-    <div class="app-footer">
-      <p>© 2025 Sweety FM</p>
+  <h1>Welcome to My Internet Radio Station</h1>
+  <div class="player">
+    <h2>Listen Live</h2>
+    <!-- Replace YOUR_STREAM_URL with your actual streaming URL -->
+    <audio controls>
+      <source src="YOUR_STREAM_URL" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <div class="social-links">
+      <a href="https://facebook.com/yourpage" target="_blank">&#128172; Facebook</a>
+      <a href="https://twitter.com/yourhandle" target="_blank">&#128172; Twitter</a>
+      <a href="https://instagram.com/yourprofile" target="_blank">&#128172; Instagram</a>
     </div>
   </div>
-
-  <script>
-    // Register Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(registration => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          })
-          .catch(err => {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-      });
-    }
-
-    // Audio Player Logic
-    const audioPlayer = new Audio('https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/;?_=0.007049228137225638');
-    const playPauseButton = document.getElementById('play-pause-btn');
-    const progressBar = document.getElementById('progress');
-
-    // Play/Pause functionality
-    playPauseButton.addEventListener('click', () => {
-      if (audioPlayer.paused) {
-        audioPlayer.play();
-        playPauseButton.textContent = '⏸️';
-      } else {
-        audioPlayer.pause();
-        playPauseButton.textContent = '▶️';
-      }
-    });
-
-    // Update progress bar
-    audioPlayer.addEventListener('timeupdate', () => {
-      const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-      progressBar.style.width = `${progress}%`;
-    });
-
-    // Update button when audio ends
-    audioPlayer.addEventListener('ended', () => {
-      playPauseButton.textContent = '▶️';
-    });
-  </script>
 </body>
 </html>
