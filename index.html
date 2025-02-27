@@ -11,9 +11,9 @@
       margin: 0;
       height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      background: linear-gradient(135deg, #fff3cd, #ffeeba); /* Light orange-yellow gradient */
+      background-color: #f4f4f4; /* Light gray background */
     }
 
     /* Sticky Title Bar */
@@ -32,6 +32,32 @@
       z-index: 1000;
     }
 
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-top: 80px; /* Space below the title bar */
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .tab {
+      padding: 15px 30px;
+      cursor: pointer;
+      font-size: 18px;
+      color: #333;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .tab:hover {
+      background-color: #ffa500; /* Orange-yellow */
+      color: white;
+    }
+    .tab.active {
+      background-color: #ffa500; /* Orange-yellow */
+      color: white;
+    }
+
     /* Play/Pause Button */
     .play-button {
       background-color: #ffa500; /* Orange-yellow */
@@ -44,6 +70,7 @@
       cursor: pointer;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       transition: background-color 0.3s ease;
+      margin-top: 30px;
     }
     .play-button:hover {
       background-color: #e69500; /* Darker shade on hover */
@@ -51,6 +78,18 @@
     .play-button i {
       color: white;
       font-size: 50px;
+    }
+
+    /* About Us Section */
+    .about-us {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      text-align: center;
+      display: none; /* Hidden by default */
     }
 
     /* Hidden Audio Player */
@@ -67,23 +106,53 @@
     Sweety FM - Listen Live
   </div>
 
-  <!-- Hidden Audio Player -->
-  <audio id="radio-stream">
-    <!-- Replace YOUR_STREAM_URL with your actual streaming URL -->
-    <source src="https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-stream="TAMIL_STREAM_URL">Tamil</div>
+    <div class="tab" data-stream="TELUGU_STREAM_URL">Telugu</div>
+    <div class="tab" data-stream="MALAYALAM_STREAM_URL">Malayalam</div>
+    <div class="tab" id="about-tab">About Us</div>
+  </div>
 
   <!-- Play/Pause Button -->
   <div class="play-button" id="play-pause-button">
     <i class="fas fa-play"></i>
   </div>
 
+  <!-- About Us Section -->
+  <div class="about-us" id="about-us">
+    <h2>About Sweety FM</h2>
+    <p>
+      Sweety FM is your go-to destination for the best Tamil, Telugu, and Malayalam music and shows. 
+      Tune in to enjoy live streaming, exclusive content, and more!
+    </p>
+  </div>
+
+  <!-- Hidden Audio Player -->
+  <audio id="radio-stream">
+    <!-- Default stream (Tamil) -->
+    <source src="TAMIL_STREAM_URL" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
   <script>
     const audio = document.getElementById('radio-stream');
     const playPauseButton = document.getElementById('play-pause-button');
     const playIcon = playPauseButton.querySelector('i');
+    const tabs = document.querySelectorAll('.tab');
+    const aboutSection = document.getElementById('about-us');
 
+    // Function to switch streams
+    function switchStream(streamUrl) {
+      audio.pause();
+      audio.src = streamUrl;
+      audio.load();
+      if (!playIcon.classList.contains('fa-play')) {
+        audio.play();
+      }
+    }
+
+    // Play/Pause Button
     playPauseButton.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
@@ -94,6 +163,29 @@
         playIcon.classList.remove('fa-pause');
         playIcon.classList.add('fa-play');
       }
+    });
+
+    // Tab Switching
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs
+        tabs.forEach(t => t.classList.remove('active'));
+        // Add active class to the clicked tab
+        tab.classList.add('active');
+
+        if (tab.id === 'about-tab') {
+          // Show About Us section
+          aboutSection.style.display = 'block';
+          playPauseButton.style.display = 'none';
+          audio.pause();
+        } else {
+          // Hide About Us section and show play button
+          aboutSection.style.display = 'none';
+          playPauseButton.style.display = 'flex';
+          // Switch to the selected stream
+          switchStream(tab.getAttribute('data-stream'));
+        }
+      });
     });
   </script>
 </body>
