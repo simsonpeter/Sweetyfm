@@ -225,6 +225,26 @@
     <i class="fas fa-play"></i>
   </div>
 
+  <!-- Full-Screen About Us Section -->
+  <div class="about-us" id="about-us">
+    <h2>About Sweety FM</h2>
+    <p>
+      Sweety FM is your go-to destination for the best Tamil, Telugu, and Malayalam music and shows. 
+      Tune in to enjoy live streaming, exclusive content, and more!
+    </p>
+    <h3>Our Mission</h3>
+    <p>
+      Our mission is to bring you the best in music, entertainment, and cultural programming. 
+      Whether you're a fan of Tamil, Telugu, or Malayalam music, Sweety FM has something for everyone.
+    </p>
+    <h3>Contact Us</h3>
+    <p>
+      Email: info@sweetyfm.com<br>
+      Phone: +91 123 456 7890<br>
+      Address: 123 Radio Street, Chennai, India
+    </p>
+  </div>
+
   <!-- Sticky Bottom Tabs -->
   <div class="tabs">
     <div class="tab active" data-stream="http://stream.sweetyfm.com:8000/tamil">Tamil</div>
@@ -251,6 +271,7 @@
     const playIcon = playPauseButton.querySelector('i');
     const tabs = document.querySelectorAll('.tab');
     const aboutSection = document.getElementById('about-us');
+    const verseContainer = document.getElementById('verse-container');
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     const verseText = document.getElementById('verse-text');
@@ -301,13 +322,15 @@
         tab.classList.add('active');
 
         if (tab.id === 'about-tab') {
-          // Show About Us section
+          // Show About Us section and hide verse container
           aboutSection.style.display = 'block';
+          verseContainer.style.display = 'none';
           playPauseButton.style.display = 'none';
           audio.pause(); // Pause audio when About Us is clicked
         } else {
-          // Hide About Us section and show play button
+          // Hide About Us section and show verse container and play button
           aboutSection.style.display = 'none';
+          verseContainer.style.display = 'block';
           playPauseButton.style.display = 'flex';
           // Switch to the selected stream
           switchStream(tab.getAttribute('data-stream'));
