@@ -9,64 +9,67 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
-      text-align: center;
-      padding: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       margin: 0;
     }
-    h1 {
-      color: #333;
-      margin-bottom: 20px;
+    .play-button {
+      background-color: #007bff;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
     }
-    .player-container {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      display: inline-block;
-      max-width: 400px;
-      width: 100%;
+    .play-button:hover {
+      background-color: #0056b3;
+    }
+    .play-button i {
+      color: white;
+      font-size: 40px;
     }
     audio {
-      width: 100%;
-      margin-top: 20px;
-    }
-    .social-links {
-      margin-top: 20px;
-    }
-    .social-links a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #333;
-      font-size: 24px;
-      transition: color 0.3s ease;
-    }
-    .social-links a:hover {
-      color: #007bff;
-    }
-    footer {
-      margin-top: 30px;
-      color: #666;
-      font-size: 14px;
+      display: none; /* Hide the audio player */
     }
   </style>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <div class="player-container">
-    <h1>Sweety FM</h1>
-    <h2>Listen Live</h2>
+  <!-- Hidden Audio Player -->
+  <audio id="radio-stream">
     <!-- Replace YOUR_STREAM_URL with your actual streaming URL -->
-    <audio controls>
-      <source src="YOUR_STREAM_URL" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-    <div class="social-links">
-      <a href="https://facebook.com/sweetyfm" target="_blank" title="Facebook">&#128172; Facebook</a>
-      <a href="https://twitter.com/sweetyfm" target="_blank" title="Twitter">&#128172; Twitter</a>
-      <a href="https://instagram.com/sweetyfm" target="_blank" title="Instagram">&#128172; Instagram</a>
-    </div>
+    <source src="YOUR_STREAM_URL" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Play/Pause Button -->
+  <div class="play-button" id="play-pause-button">
+    <i class="fas fa-play"></i>
   </div>
-  <footer>
-    &copy; 2023 Sweety FM. All rights reserved.
-  </footer>
+
+  <script>
+    const audio = document.getElementById('radio-stream');
+    const playPauseButton = document.getElementById('play-pause-button');
+    const playIcon = playPauseButton.querySelector('i');
+
+    playPauseButton.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playIcon.classList.remove('fa-play');
+        playIcon.classList.add('fa-pause');
+      } else {
+        audio.pause();
+        playIcon.classList.remove('fa-pause');
+        playIcon.classList.add('fa-play');
+      }
+    });
+  </script>
 </body>
 </html>
