@@ -145,15 +145,15 @@
       color: white;
     }
 
-    /* Beautiful Dark Mode Toggle */
+    /* Modern Dark Mode Toggle */
     .theme-toggle {
       position: fixed;
       bottom: 70px; /* Positioned slightly above the tabs */
       right: 20px;
-      background-color: transparent;
-      border: 2px solid #ffa500;
-      color: #ffa500;
-      padding: 10px 15px;
+      background-color: #ffa500; /* Solid background by default */
+      border: none;
+      color: white;
+      padding: 10px 20px;
       border-radius: 25px;
       cursor: pointer;
       font-size: 16px;
@@ -161,17 +161,19 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
     .theme-toggle:hover {
-      background-color: #ffa500;
-      color: white;
+      background-color: #e69500; /* Darker shade on hover */
+      transform: scale(1.05); /* Slightly enlarge on hover */
     }
 
     body.dark-mode .theme-toggle {
-      border-color: #fff;
+      background-color: #333;
       color: #fff;
+      border: 2px solid #fff;
     }
 
     body.dark-mode .theme-toggle:hover {
@@ -226,7 +228,7 @@
     <div class="tab" id="about-tab">About Us</div>
   </div>
 
-  <!-- Beautiful Dark Mode Toggle -->
+  <!-- Modern Dark Mode Toggle -->
   <button class="theme-toggle" id="theme-toggle">
     <i class="fas fa-moon"></i> Dark Mode
   </button>
