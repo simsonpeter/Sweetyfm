@@ -8,12 +8,12 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      margin: 0;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      background: linear-gradient(135deg, #fff3cd, #ffeeba); /* Light orange-yellow gradient */
     }
 
     /* Sticky Title Bar */
@@ -34,9 +34,9 @@
 
     /* Play/Pause Button */
     .play-button {
-      background-color: #007bff;
-      width: 100px;
-      height: 100px;
+      background-color: #ffa500; /* Orange-yellow */
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
@@ -46,11 +46,11 @@
       transition: background-color 0.3s ease;
     }
     .play-button:hover {
-      background-color: #0056b3;
+      background-color: #e69500; /* Darker shade on hover */
     }
     .play-button i {
       color: white;
-      font-size: 40px;
+      font-size: 50px;
     }
 
     /* Hidden Audio Player */
