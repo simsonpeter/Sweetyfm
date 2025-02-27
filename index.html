@@ -37,29 +37,12 @@
       width: 100%;
       background-color: #ffa500;
       color: white;
-      text-align: center;
-      padding: 10px 0;
+      padding: 15px 20px;
       font-size: 24px;
       font-weight: bold;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px; /* Space between logo and text */
-    }
-
-    .title-bar img {
-      height: 40px; /* Increased logo size */
-      width: auto; /* Maintain aspect ratio */
-      border: 2px solid white; /* White border for contrast */
-      border-radius: 50%; /* Circular border */
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Drop shadow */
-      transition: transform 0.3s ease; /* Smooth hover effect */
-    }
-
-    .title-bar img:hover {
-      transform: scale(1.1); /* Slightly enlarge on hover */
+      text-align: left; /* Align title to the left */
     }
 
     /* Verse Display */
@@ -199,6 +182,46 @@
       color: #333;
     }
 
+    /* About Us Section */
+    .about-us {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      padding: 80px 20px 100px; /* Add padding to avoid overlap with title bar and tabs */
+      overflow-y: auto;
+      z-index: 999;
+      display: none;
+      background-color: rgba(255, 255, 255, 0.9); /* Light background */
+      color: #333;
+      text-align: center;
+    }
+
+    body.dark-mode .about-us {
+      background-color: rgba(0, 0, 0, 0.9); /* Dark background */
+      color: #fff;
+    }
+
+    .about-us h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #ffa500; /* Orange color for heading */
+    }
+
+    .about-us p {
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+
+    .about-us h3 {
+      font-size: 24px;
+      margin-top: 30px;
+      color: #ffa500; /* Orange color for sub-heading */
+    }
+
     /* Hidden Audio Player */
     audio {
       display: none;
@@ -208,9 +231,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <!-- Sticky Title Bar with Logo -->
+  <!-- Sticky Title Bar -->
   <div class="title-bar">
-    <img src="https://sweetyfm.com/wp-content/uploads/2023/11/cropped-Sweety-FM.png" alt="Sweety FM Logo">
     Sweety FM - Listen Live
   </div>
 
