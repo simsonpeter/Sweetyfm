@@ -29,14 +29,27 @@
       color: #fff;
     }
 
-    /* Spinning Animation */
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    /* Flying Animation */
+    @keyframes fly {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(-20px) translateX(10px) rotate(5deg);
+      }
+      50% {
+        transform: translateY(10px) translateX(-10px) rotate(-5deg);
+      }
+      75% {
+        transform: translateY(-15px) translateX(5px) rotate(3deg);
+      }
+      100% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
     }
 
-    .logo-container.spinning img {
-      animation: spin 2s linear infinite;
+    .logo-container.flying img {
+      animation: fly 3s ease-in-out infinite;
     }
 
     /* Sticky Title Bar */
@@ -127,13 +140,13 @@
     /* Logo Container */
     .logo-container {
       position: absolute;
-      top: 20%;
+      top: 15%;
       text-align: center;
       z-index: 999;
       padding: 20px;
       max-width: 80%;
       margin-top: 20px;
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
     }
 
     .logo-container img {
@@ -385,21 +398,21 @@
 
     // Audio Event Handlers
     audio.addEventListener('playing', () => {
-      logoContainer.classList.add('spinning');
+      logoContainer.classList.add('flying');
     });
 
     audio.addEventListener('pause', () => {
-      logoContainer.classList.remove('spinning');
+      logoContainer.classList.remove('flying');
     });
 
     audio.addEventListener('error', () => {
-      logoContainer.classList.remove('spinning');
+      logoContainer.classList.remove('flying');
       alert('Error connecting to stream. Please try another station.');
     });
 
     // Stream Switching Function
     function switchStream(streamUrl, shouldPlay) {
-      logoContainer.classList.remove('spinning');
+      logoContainer.classList.remove('flying');
       audio.pause();
       audio.src = streamUrl;
       audio.load();
@@ -408,7 +421,7 @@
         audio.play().catch(error => {
           console.error('Playback failed:', error);
           playIcon.classList.replace('fa-pause', 'fa-play');
-          logoContainer.classList.remove('spinning');
+          logoContainer.classList.remove('flying');
         });
       }
     }
@@ -419,11 +432,11 @@
         audio.play().catch(error => {
           console.error('Playback failed:', error);
           playIcon.classList.replace('fa-pause', 'fa-play');
-          logoContainer.classList.remove('spinning');
+          logoContainer.classList.remove('flying');
         });
       } else {
         audio.pause();
-        logoContainer.classList.remove('spinning');
+        logoContainer.classList.remove('flying');
       }
       playIcon.classList.toggle('fa-play');
       playIcon.classList.toggle('fa-pause');
