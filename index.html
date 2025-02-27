@@ -29,6 +29,16 @@
       color: #fff;
     }
 
+    /* Spinning Animation */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .logo-container.spinning img {
+      animation: spin 2s linear infinite;
+    }
+
     /* Sticky Title Bar */
     .title-bar {
       position: fixed;
@@ -121,8 +131,9 @@
       text-align: center;
       z-index: 999;
       padding: 20px;
-      max-width: 120%;
+      max-width: 80%;
       margin-top: 20px;
+      transition: transform 0.3s ease;
     }
 
     .logo-container img {
@@ -130,6 +141,7 @@
       height: auto;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
     }
 
     body.dark-mode .logo-container img {
@@ -320,12 +332,12 @@
     <div class="tab active" data-stream="https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/">Tamil</div>
     <div class="tab" data-stream="https://rbx2.hnux.com/http://e15061.cloudrad.io:80/3fb1379tn7zuv?_=0.8058376957820803">Telugu</div>
     <div class="tab" data-stream="https://rbx2.hnux.com/http://e13688.cloudrad.io:80/36r8z4nyx7zuv?_=0.12687992153410788">Malayalam</div>
-    <div class="tab" data-stream="http://stream.sweetyfm.com:8000/iniyan">Iniyan</div>
+    <div class="tab" data-stream="https://stream.sweetyfm.com:8000/iniyan">Iniyan</div>
   </div>
 
   <!-- Hidden Audio Player -->
   <audio id="radio-stream">
-    <source src="http://stream.sweetyfm.com:8000/tamil" type="audio/mpeg">
+    <source src="https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
@@ -371,17 +383,48 @@
       playPauseButton.style.display = 'flex';
     });
 
-    // Audio Controls
-    function switchStream(streamUrl) {
+    // Audio Event Handlers
+    audio.addEventListener('playing', () => {
+      logoContainer.classList.add('spinning');
+    });
+
+    audio.addEventListener('pause', () => {
+      logoContainer.classList.remove('spinning');
+    });
+
+    audio.addEventListener('error', () => {
+      logoContainer.classList.remove('spinning');
+      alert('Error connecting to stream. Please try another station.');
+    });
+
+    // Stream Switching Function
+    function switchStream(streamUrl, shouldPlay) {
+      logoContainer.classList.remove('spinning');
       audio.pause();
       audio.src = streamUrl;
       audio.load();
-      audio.play().catch(console.error);
-      playIcon.classList.replace('fa-play', 'fa-pause');
+      
+      if (shouldPlay) {
+        audio.play().catch(error => {
+          console.error('Playback failed:', error);
+          playIcon.classList.replace('fa-pause', 'fa-play');
+          logoContainer.classList.remove('spinning');
+        });
+      }
     }
 
+    // Play/Pause Controls
     playPauseButton.addEventListener('click', () => {
-      audio.paused ? audio.play() : audio.pause();
+      if (audio.paused) {
+        audio.play().catch(error => {
+          console.error('Playback failed:', error);
+          playIcon.classList.replace('fa-pause', 'fa-play');
+          logoContainer.classList.remove('spinning');
+        });
+      } else {
+        audio.pause();
+        logoContainer.classList.remove('spinning');
+      }
       playIcon.classList.toggle('fa-play');
       playIcon.classList.toggle('fa-pause');
     });
@@ -389,12 +432,13 @@
     // Tab Switching
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
+        const wasPlaying = !audio.paused;
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         aboutSection.style.display = 'none';
         logoContainer.style.display = 'block';
         playPauseButton.style.display = 'flex';
-        switchStream(tab.dataset.stream);
+        switchStream(tab.dataset.stream, wasPlaying);
       });
     });
   </script>
