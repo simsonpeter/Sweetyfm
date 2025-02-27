@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Sweety FM</title>
+  <title>Sweety FM - Listen Live</title>
+  <meta name="theme-color" content="#ffa500">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/cSnS4wgG/cropped-Sweety-FM.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     /* General Styles */
     body {
@@ -27,29 +33,6 @@
     body.dark-mode {
       background-color: rgba(0, 0, 0, 0.7);
       color: #fff;
-    }
-
-    /* Flying Animation */
-    @keyframes fly {
-      0% {
-        transform: translateY(0) translateX(0) rotate(0deg);
-      }
-      25% {
-        transform: translateY(-20px) translateX(10px) rotate(5deg);
-      }
-      50% {
-        transform: translateY(10px) translateX(-10px) rotate(-5deg);
-      }
-      75% {
-        transform: translateY(-15px) translateX(5px) rotate(3deg);
-      }
-      100% {
-        transform: translateY(0) translateX(0) rotate(0deg);
-      }
-    }
-
-    .logo-container.flying img {
-      animation: fly 3s ease-in-out infinite;
     }
 
     /* Sticky Title Bar */
@@ -140,21 +123,19 @@
     /* Logo Container */
     .logo-container {
       position: absolute;
-      top: 15%;
+      top: 20%;
       text-align: center;
       z-index: 999;
       padding: 20px;
       max-width: 80%;
       margin-top: 20px;
-      transition: all 0.3s ease;
     }
 
     .logo-container img {
-      max-width: 200px;
+      max-width: 300px;
       height: auto;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
     }
 
     body.dark-mode .logo-container img {
@@ -164,8 +145,8 @@
     /* Play/Pause Button */
     .play-button {
       background-color: #ffa500;
-      width: 80px;
-      height: 80px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
@@ -290,7 +271,6 @@
       display: none;
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- Sticky Title Bar -->
@@ -345,13 +325,13 @@
     <div class="tab active" data-stream="https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/">Tamil</div>
     <div class="tab" data-stream="https://rbx2.hnux.com/http://e15061.cloudrad.io:80/3fb1379tn7zuv?_=0.8058376957820803">Telugu</div>
     <div class="tab" data-stream="https://rbx2.hnux.com/http://e13688.cloudrad.io:80/36r8z4nyx7zuv?_=0.12687992153410788">Malayalam</div>
-      <!-- Comment out or remove the Iniyan tab -->
-  <!-- <div class="tab" data-stream="http://stream.sweetyfm.com:8000/iniyan">Iniyan</div> -->
+    <!-- Iniyan tab is hidden -->
+    <div class="tab" data-stream="http://stream.sweetyfm.com:8000/iniyan" style="display: none;">Iniyan</div>
   </div>
 
   <!-- Hidden Audio Player -->
   <audio id="radio-stream">
-    <source src="https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/" type="audio/mpeg">
+    <source src="http://stream.sweetyfm.com:8000/tamil" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
@@ -397,48 +377,17 @@
       playPauseButton.style.display = 'flex';
     });
 
-    // Audio Event Handlers
-    audio.addEventListener('playing', () => {
-      logoContainer.classList.add('flying');
-    });
-
-    audio.addEventListener('pause', () => {
-      logoContainer.classList.remove('flying');
-    });
-
-    audio.addEventListener('error', () => {
-      logoContainer.classList.remove('flying');
-      alert('Error connecting to stream. Please try another station.');
-    });
-
-    // Stream Switching Function
-    function switchStream(streamUrl, shouldPlay) {
-      logoContainer.classList.remove('flying');
+    // Audio Controls
+    function switchStream(streamUrl) {
       audio.pause();
       audio.src = streamUrl;
       audio.load();
-      
-      if (shouldPlay) {
-        audio.play().catch(error => {
-          console.error('Playback failed:', error);
-          playIcon.classList.replace('fa-pause', 'fa-play');
-          logoContainer.classList.remove('flying');
-        });
-      }
+      audio.play().catch(console.error);
+      playIcon.classList.replace('fa-play', 'fa-pause');
     }
 
-    // Play/Pause Controls
     playPauseButton.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play().catch(error => {
-          console.error('Playback failed:', error);
-          playIcon.classList.replace('fa-pause', 'fa-play');
-          logoContainer.classList.remove('flying');
-        });
-      } else {
-        audio.pause();
-        logoContainer.classList.remove('flying');
-      }
+      audio.paused ? audio.play() : audio.pause();
       playIcon.classList.toggle('fa-play');
       playIcon.classList.toggle('fa-pause');
     });
@@ -446,15 +395,25 @@
     // Tab Switching
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        const wasPlaying = !audio.paused;
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         aboutSection.style.display = 'none';
         logoContainer.style.display = 'block';
         playPauseButton.style.display = 'flex';
-        switchStream(tab.dataset.stream, wasPlaying);
+        switchStream(tab.dataset.stream);
       });
     });
+
+    // Register the service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch((error) => {
+          console.error('Service Worker registration failed:', error);
+        });
+    }
   </script>
 </body>
 </html>
