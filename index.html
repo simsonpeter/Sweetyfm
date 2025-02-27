@@ -42,7 +42,23 @@
       font-weight: bold;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       z-index: 1000;
-      text-align: left; /* Align title to the left */
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Space between title and toggle button */
+    }
+
+    /* About Toggle Button */
+    .about-toggle {
+      background-color: transparent;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .about-toggle:hover {
+      transform: scale(1.1); /* Slightly enlarge on hover */
     }
 
     /* Verse Display */
@@ -233,7 +249,10 @@
 <body>
   <!-- Sticky Title Bar -->
   <div class="title-bar">
-    Sweety FM - Listen Live
+    <span>Sweety FM - Listen Live</span>
+    <button class="about-toggle" id="about-toggle">
+      <i class="fas fa-info-circle"></i> <!-- "I" icon -->
+    </button>
   </div>
 
   <!-- Verse Display -->
@@ -251,13 +270,13 @@
   <div class="about-us" id="about-us">
     <h2>About Sweety FM</h2>
     <p>
-      Sweety FM is your go-to destination for the best Tamil, Telugu, and Malayalam music and shows. 
+      Sweety FM is your go-to destination for the best Tamil, Telugu, Malayalam, and Iniyan music and shows. 
       Tune in to enjoy live streaming, exclusive content, and more!
     </p>
     <h3>Our Mission</h3>
     <p>
       Our mission is to bring you the best in music, entertainment, and cultural programming. 
-      Whether you're a fan of Tamil, Telugu, or Malayalam music, Sweety FM has something for everyone.
+      Whether you're a fan of Tamil, Telugu, Malayalam, or Iniyan music, Sweety FM has something for everyone.
     </p>
     <h3>Contact Us</h3>
     <p>
@@ -272,7 +291,7 @@
     <div class="tab active" data-stream="http://stream.sweetyfm.com:8000/tamil">Tamil</div>
     <div class="tab" data-stream="http://stream.sweetyfm.com:8000/telugu">Telugu</div>
     <div class="tab" data-stream="http://stream.sweetyfm.com:8000/malayalam">Malayalam</div>
-    <div class="tab" id="about-tab">About Us</div>
+    <div class="tab" data-stream="http://stream.sweetyfm.com:8000/iniyan">Iniyan</div>
   </div>
 
   <!-- Modern Dark Mode Toggle -->
@@ -295,6 +314,7 @@
     const aboutSection = document.getElementById('about-us');
     const verseContainer = document.getElementById('verse-container');
     const themeToggle = document.getElementById('theme-toggle');
+    const aboutToggle = document.getElementById('about-toggle');
     const body = document.body;
     const verseText = document.getElementById('verse-text');
     const verseTranslation = document.getElementById('verse-translation');
@@ -343,21 +363,21 @@
         // Add active class to the clicked tab
         tab.classList.add('active');
 
-        if (tab.id === 'about-tab') {
-          // Show About Us section and hide verse container
-          aboutSection.style.display = 'block';
-          verseContainer.style.display = 'none';
-          playPauseButton.style.display = 'none';
-          audio.pause(); // Pause audio when About Us is clicked
-        } else {
-          // Hide About Us section and show verse container and play button
-          aboutSection.style.display = 'none';
-          verseContainer.style.display = 'block';
-          playPauseButton.style.display = 'flex';
-          // Switch to the selected stream
-          switchStream(tab.getAttribute('data-stream'));
-        }
+        // Hide About Us section and show verse container and play button
+        aboutSection.style.display = 'none';
+        verseContainer.style.display = 'block';
+        playPauseButton.style.display = 'flex';
+        // Switch to the selected stream
+        switchStream(tab.getAttribute('data-stream'));
       });
+    });
+
+    // About Toggle Button
+    aboutToggle.addEventListener('click', () => {
+      aboutSection.style.display = 'block';
+      verseContainer.style.display = 'none';
+      playPauseButton.style.display = 'none';
+      audio.pause(); // Pause audio when About Us is clicked
     });
 
     // Dark/Light Mode Toggle
