@@ -148,7 +148,7 @@
     /* Beautiful Dark Mode Toggle */
     .theme-toggle {
       position: fixed;
-      top: 20px;
+      bottom: 70px; /* Positioned slightly above the tabs */
       right: 20px;
       background-color: transparent;
       border: 2px solid #ffa500;
@@ -193,11 +193,6 @@
     Sweety FM - Listen Live
   </div>
 
-  <!-- Beautiful Dark Mode Toggle -->
-  <button class="theme-toggle" id="theme-toggle">
-    <i class="fas fa-moon"></i> Dark Mode
-  </button>
-
   <!-- Play/Pause Button -->
   <div class="play-button" id="play-pause-button">
     <i class="fas fa-play"></i>
@@ -230,6 +225,11 @@
     <div class="tab" data-stream="MALAYALAM_STREAM_URL">Malayalam</div>
     <div class="tab" id="about-tab">About Us</div>
   </div>
+
+  <!-- Beautiful Dark Mode Toggle -->
+  <button class="theme-toggle" id="theme-toggle">
+    <i class="fas fa-moon"></i> Dark Mode
+  </button>
 
   <!-- Hidden Audio Player -->
   <audio id="radio-stream">
