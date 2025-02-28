@@ -130,7 +130,7 @@
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
-      animation: pulse 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 5px rgba(255, 165, 0, 0));
     }
 
     @keyframes pulse {
@@ -325,10 +325,31 @@
     const closeAbout = document.getElementById('close-about');
     const body = document.body;
 
-    // Logo animation control
+    // Audio control with proper animation handling
+    function togglePlayback() {
+      if(audio.paused) {
+        audio.play()
+          .then(() => {
+            logoContainer.classList.add('playing');
+            playIcon.classList.replace('fa-play', 'fa-pause');
+          })
+          .catch(error => {
+            console.error('Error starting playback:', error);
+            logoContainer.classList.remove('playing');
+          });
+      } else {
+        audio.pause();
+        logoContainer.classList.remove('playing');
+        playIcon.classList.replace('fa-pause', 'fa-play');
+      }
+    }
+
+    // Event listeners
     audio.addEventListener('play', () => logoContainer.classList.add('playing'));
     audio.addEventListener('pause', () => logoContainer.classList.remove('playing'));
     audio.addEventListener('error', () => logoContainer.classList.remove('playing'));
+    
+    playPauseButton.addEventListener('click', togglePlayback);
 
     // Theme toggle
     function updateTheme(isDark) {
@@ -353,13 +374,6 @@
       playPauseButton.style.display = 'flex';
     });
 
-    // Audio control
-    playPauseButton.addEventListener('click', () => {
-      audio.paused ? audio.play() : audio.pause();
-      playIcon.classList.toggle('fa-play');
-      playIcon.classList.toggle('fa-pause');
-    });
-
     // Tab switching
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
@@ -368,9 +382,16 @@
         aboutSection.style.display = 'none';
         logoContainer.style.display = 'block';
         playPauseButton.style.display = 'flex';
+        
+        // Switch stream with animation control
         audio.pause();
         audio.src = tab.dataset.stream;
-        audio.play().catch(err => console.error('Stream error:', err));
+        audio.play()
+          .then(() => logoContainer.classList.add('playing'))
+          .catch(error => {
+            console.error('Stream error:', error);
+            logoContainer.classList.remove('playing');
+          });
       });
     });
 
