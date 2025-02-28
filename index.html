@@ -12,7 +12,6 @@
   <link rel="apple-touch-icon" href="https://i.ibb.co/cSnS4wgG/cropped-Sweety-FM.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* General Styles */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -35,7 +34,6 @@
       color: #fff;
     }
 
-    /* Sticky Title Bar */
     .title-bar {
       position: fixed;
       top: 0;
@@ -53,14 +51,12 @@
       justify-content: space-between;
     }
 
-    /* Button Container */
     .button-container {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    /* Dark Mode Toggle */
     .theme-toggle {
       background-color: rgba(255, 255, 255, 0.2);
       border: none;
@@ -87,7 +83,6 @@
       color: #fff;
     }
 
-    /* About Toggle Button */
     .about-toggle {
       background-color: rgba(255, 255, 255, 0.2);
       border: none;
@@ -109,7 +104,6 @@
       transform: scale(1.1);
     }
 
-    /* Dummy Button */
     .dummy-button {
       background: transparent !important;
       border: none !important;
@@ -120,7 +114,6 @@
       height: 40px;
     }
 
-    /* Logo Container */
     .logo-container {
       position: absolute;
       top: 20%;
@@ -136,13 +129,28 @@
       height: auto;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      animation: pulse 2s ease-in-out infinite;
     }
 
-    body.dark-mode .logo-container img {
-      filter: brightness(0.9);
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
 
-    /* Play/Pause Button */
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .logo-container.playing img {
+      animation: 
+        rotate 20s linear infinite,
+        pulse 2s ease-in-out infinite;
+      filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.5));
+    }
+
     .play-button {
       background-color: #ffa500;
       width: 80px;
@@ -169,7 +177,6 @@
       font-size: 50px;
     }
 
-    /* Sticky Bottom Tabs */
     .tabs {
       position: fixed;
       bottom: 0;
@@ -210,7 +217,6 @@
       color: white;
     }
 
-    /* About Us Section */
     .about-us {
       position: fixed;
       top: 80px;
@@ -235,25 +241,6 @@
       color: #fff;
     }
 
-    .about-us h2 {
-      font-size: 32px;
-      margin-bottom: 20px;
-      color: #ffa500;
-    }
-
-    .about-us p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin: 0 auto 20px;
-    }
-
-    .about-us h3 {
-      font-size: 24px;
-      margin-top: 30px;
-      color: #ffa500;
-    }
-
-    /* Close Button */
     .close-button {
       position: absolute;
       top: 10px;
@@ -266,14 +253,12 @@
       padding: 5px;
     }
 
-    /* Hidden Audio Player */
     audio {
       display: none;
     }
   </style>
 </head>
 <body>
-  <!-- Sticky Title Bar -->
   <div class="title-bar">
     <span>Sweety FM</span>
     <div class="button-container">
@@ -289,17 +274,14 @@
     </div>
   </div>
 
-  <!-- Logo Display -->
   <div class="logo-container">
     <img src="https://i.ibb.co/cSnS4wgG/cropped-Sweety-FM.png" alt="Sweety FM Logo">
   </div>
 
-  <!-- Play/Pause Button -->
   <div class="play-button" id="play-pause-button">
     <i class="fas fa-play"></i>
   </div>
 
-  <!-- About Us Section -->
   <div class="about-us" id="about-us">
     <button class="close-button" id="close-about">&times;</button>
     <h2>About Sweety FM</h2>
@@ -320,19 +302,15 @@
     </p>
   </div>
 
-  <!-- Sticky Bottom Tabs -->
   <div class="tabs">
     <div class="tab active" data-stream="https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/">Tamil</div>
     <div class="tab" data-stream="https://rbx2.hnux.com/http://e15061.cloudrad.io:80/3fb1379tn7zuv?_=0.8058376957820803">Telugu</div>
     <div class="tab" data-stream="https://rbx2.hnux.com/http://e13688.cloudrad.io:80/36r8z4nyx7zuv?_=0.12687992153410788">Malayalam</div>
-    <!-- Iniyan tab is hidden -->
     <div class="tab" data-stream="http://stream.sweetyfm.com:8000/iniyan" style="display: none;">Iniyan</div>
   </div>
 
-  <!-- Hidden Audio Player -->
   <audio id="radio-stream">
     <source src="https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/" type="audio/mpeg">
-    Your browser does not support the audio element.
   </audio>
 
   <script>
@@ -347,7 +325,12 @@
     const closeAbout = document.getElementById('close-about');
     const body = document.body;
 
-    // Dark Mode with LocalStorage
+    // Logo animation control
+    audio.addEventListener('play', () => logoContainer.classList.add('playing'));
+    audio.addEventListener('pause', () => logoContainer.classList.remove('playing'));
+    audio.addEventListener('error', () => logoContainer.classList.remove('playing'));
+
+    // Theme toggle
     function updateTheme(isDark) {
       body.classList.toggle('dark-mode', isDark);
       themeToggle.innerHTML = isDark 
@@ -355,44 +338,29 @@
         : '<i class="fas fa-moon"></i>';
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
+    updateTheme(localStorage.getItem('theme') === 'dark');
+    themeToggle.addEventListener('click', () => updateTheme(!body.classList.contains('dark-mode')));
 
-    // Initialize theme
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    updateTheme(savedTheme === 'dark');
-
-    themeToggle.addEventListener('click', () => {
-      updateTheme(!body.classList.contains('dark-mode'));
-    });
-
-    // About Section Controls
+    // About section
     aboutToggle.addEventListener('click', () => {
       aboutSection.style.display = 'block';
       logoContainer.style.display = 'none';
       playPauseButton.style.display = 'none';
     });
-
     closeAbout.addEventListener('click', () => {
       aboutSection.style.display = 'none';
       logoContainer.style.display = 'block';
       playPauseButton.style.display = 'flex';
     });
 
-    // Audio Controls
-    function switchStream(streamUrl) {
-      audio.pause();
-      audio.src = streamUrl;
-      audio.load();
-      audio.play().catch(console.error);
-      playIcon.classList.replace('fa-play', 'fa-pause');
-    }
-
+    // Audio control
     playPauseButton.addEventListener('click', () => {
       audio.paused ? audio.play() : audio.pause();
       playIcon.classList.toggle('fa-play');
       playIcon.classList.toggle('fa-pause');
     });
 
-    // Tab Switching
+    // Tab switching
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
@@ -400,19 +368,17 @@
         aboutSection.style.display = 'none';
         logoContainer.style.display = 'block';
         playPauseButton.style.display = 'flex';
-        switchStream(tab.dataset.stream);
+        audio.pause();
+        audio.src = tab.dataset.stream;
+        audio.play().catch(err => console.error('Stream error:', err));
       });
     });
 
-    // Register the service worker
+    // Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
-          console.log('Service Worker registered with scope:', registration.scope);
-        })
-        .catch((error) => {
-          console.error('Service Worker registration failed:', error);
-        });
+        .then(reg => console.log('SW registered:', reg))
+        .catch(err => console.error('SW registration failed:', err));
     }
   </script>
 </body>
